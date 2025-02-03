@@ -1,0 +1,43 @@
+<div class="content">
+    <div class="card">
+        <div class="card-header bg-white header-elements-inline">
+            <h5 class="card-title">Validacion de Constancia</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table">
+                    <thead>
+                        <tr>
+                            <th>Validación de Constancias</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Título: {{this.validate_qr_data['Nombre']}}</td>
+                        </tr>
+                        <tr>
+                            <td>Presentador(es): {{this.validate_qr_data['Presenter']}}</td>
+                        </tr>
+                        <tr>
+                            <td>Tipo de actividad: {{this.validate_qr_data['Type']}}</td>
+                        </tr>
+                        <tr>
+                            <td>Area de conocimiento: {{this.validate_qr_data['Area knowledge']}}</td>
+                        </tr>
+                        <tr>
+                            <td>Fecha: {{this.validate_qr_data['Date']}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <ng-container *ngIf="validate_qr == true; else reject">
+                        <img src="assets/images/verified.png" style="height: auto; max-width: 5%;">
+                    </ng-container>
+                    <ng-template #reject>
+                        <img src="assets/images/reject.png" style="height: auto; max-width: 5%;">
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<div>
+  <div class="dataTables_info">
+    <p>
+      Mostrando {{ firstEntry }} a {{ lastEntry }} de {{ count }} resultados
+    </p>
+  </div>
+  <div
+    class="dataTables_paginate paging_simple_numbers"
+    id="DataTables_Table_0_paginate"
+  >
+    <button
+      class="paginate_button previous"
+      [class.disabled]="isPreviousDisabled"
+      [disabled]="isPreviousDisabled || isLoading"
+      role="link"
+      (click)="previous_click()"
+    >
+      Previous
+    </button>
+    <span>
+      <a class="paginate_button current" role="link">{{ currentPage }}</a>
+    </span>
+    <button
+      class="paginate_button next"
+      [class.disabled]="isNextDisabled"
+      [disabled]="isNextDisabled || isLoading"
+      (click)="next_click()"
+    >
+      Next
+    </button>
+  </div>
+</div>

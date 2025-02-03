@@ -1,0 +1,211 @@
+<!-- Header -->
+<div class="page-header page-header-light">
+  <div class="page-header-content header-elements-md-inline">
+    <div class="page-title d-flex">
+      <h4>
+        <a routerLink="/portal/universities"
+          ><i class="icon-arrow-left52 mr-2"></i></a
+        ><span class="font-weight-semibold">Unidades Academicas</span>
+      </h4>
+    </div>
+  </div>
+</div>
+<!-- Content -->
+<div class="content">
+  <div class="card">
+    <div class="card-header bg-white header-elements-inline">
+      <h5 class="card-title">{{ form_type }} Unidad Academica</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="university_form" (ngSubmit)="save_university()">
+        <fieldset class="mb-3">
+          <legend class="font-weight-bold">
+            <i class="icon-file-text2 mr-2"></i>Información
+          </legend>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <span class="required"> *</span>
+                    <input
+                      type="text"
+                      name="name"
+                      class="form-control"
+                      formControlName="name"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6" [hidden]="true">
+                  <div class="form-group">
+                    <label for="acronym">Siglas</label>
+                    <span class="required"> *</span>
+                    <input
+                      type="text"
+                      name="acronym"
+                      class="form-control"
+                      formControlName="acronym"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="key_code">Clave de la unidad</label>
+                    <span class="required"> *</span>
+                    <input
+                      type="text"
+                      name="key_code"
+                      class="form-control"
+                      formControlName="key_code"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill" class="input_select">
+                    <mat-label
+                      >Seleccione un tipo de unidad academica</mat-label
+                    >
+                    <mat-select formControlName="type">
+                      <mat-option
+                        *ngFor="let _type of types"
+                        [value]="_type.value"
+                      >
+                        {{ _type.viewValue }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill" class="input_select">
+                    <mat-label>Seleccione un municipio</mat-label>
+                    <mat-select
+                      (selectionChange)="onMunicipalityChange($event)"
+                      formControlName="municipality"
+                    >
+                      <mat-option
+                        *ngFor="let _municipio of municipios"
+                        [value]="_municipio.value"
+                      >
+                        {{ _municipio.viewValue }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill" class="input_select">
+                    <mat-label>Seleccione una región</mat-label>
+                    <mat-select formControlName="region">
+                      <mat-option
+                        *ngFor="let _region of regions"
+                        [value]="_region.value"
+                      >
+                        {{ _region.viewValue }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="locality">Localidad</label>
+                    <span class="required"> *</span>
+                    <input
+                      type="text"
+                      name="locality"
+                      class="form-control"
+                      formControlName="locality"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6" [hidden]="true">
+                  <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <span class="required"> *</span>
+                    <input
+                      [ngClass]="{
+                        inputMessage:
+                          university_form.controls['email'].invalid &&
+                          (university_form.controls['email'].dirty ||
+                            university_form.controls['email'].touched)
+                      }"
+                      type="email"
+                      name="email"
+                      class="form-control"
+                      formControlName="email"
+                    />
+                    <div
+                      *ngIf="
+                        university_form.controls['email'].invalid &&
+                        (university_form.controls['email'].dirty ||
+                          university_form.controls['email'].touched)
+                      "
+                      class="alerta"
+                    >
+                      <div>
+                        <p class="msj">El campo correo no es válido.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6" [hidden]="true">
+                  <div class="form-group">
+                    <label for="phone">Teléfono</label>
+                    <input
+                      [ngClass]="{
+                        inputMessage:
+                          university_form.controls['phone'].invalid &&
+                          (university_form.controls['phone'].dirty ||
+                            university_form.controls['phone'].touched)
+                      }"
+                      type="text"
+                      name="phone"
+                      minlength="10"
+                      maxlength="10"
+                      class="form-control"
+                      formControlName="phone"
+                    />
+                    <div
+                      *ngIf="
+                        university_form.controls['phone'].invalid &&
+                        (university_form.controls['phone'].dirty ||
+                          university_form.controls['phone'].touched)
+                      "
+                      class="alerta"
+                    >
+                      <div>
+                        <p class="msj">El campo telefono no es válido.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div class="text-right">
+          <a class="btn btn-link" routerLink="/portal/universities"
+            ><i class="icon-cross2 font-size-base mr-1"></i>Cancelar</a
+          >
+          <button
+            type="submit"
+            [disabled]="!university_form.valid"
+            class="btn btn-primary"
+          >
+            Guardar<i class="icon-cloud-upload ml-2"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

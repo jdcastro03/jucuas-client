@@ -1,0 +1,65 @@
+<!-- Header -->
+<div class="page-header page-header-light">
+    <div class="page-header-content header-elements-md-inline">
+        <div class="page-title d-flex">
+            <h4><a routerLink="/portal/type-activities"><i class="icon-arrow-left52 mr-2"></i></a><span class="font-weight-semibold">Tipos de actividad</span></h4>
+        </div>
+    </div>
+</div>
+<!-- Content -->
+<div class="content">
+    <div class="card">
+        <div class="card-header bg-white header-elements-inline">
+            <h5 class="card-title">{{form_type}} Tipo de actividad</h5>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="type_activity_form" (ngSubmit)="save_type_activity()">
+                <fieldset class="mb-3">
+                    <legend class="font-weight-bold"><i class="icon-file-text2 mr-2"></i>Información</legend>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="name">Nombre</label> <span class="required"> *</span>
+                                        <input type="text" name="name" class="form-control" formControlName="name" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="name">Parrafo</label> <span class="required"> *</span>
+                                        <input type="text" name="title" class="form-control" formControlName="title" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="name">Evidencias (Este contenido se insertará en la constancia)</label> <span class="required"> *</span>
+                                    <div class="form-group">
+                                        <select multiple name="evidences" formControlName="type_evidence" class="input_select">
+                                            <option value={{evidence.value}} *ngFor="let evidence of evidencesList">
+                                              {{ evidence.viewValue }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="name">Máximo de Colaboradores</label> <span class="required"> *</span>
+                                        <input type="text" name="name" class="form-control" formControlName="maxCopresenter" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="text-right">
+                    <a class="btn btn-link" routerLink="/portal/type-activities"><i class="icon-cross2 font-size-base mr-1"></i>Cancelar</a>
+                    <button type="submit" [disabled]="!type_activity_form.valid" class="btn btn-primary">Guardar<i class="icon-cloud-upload ml-2"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,184 @@
+<div id="modal_evidences" #modal_evidences class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <ng-container
+        *ngIf="user_group == 'admin' || user_group == 'representative'"
+      >
+        <form [formGroup]="evidence_form" (ngSubmit)="save_evidence()">
+          <div class="modal-header">
+            <h3 class="modal-title">Subir archivo</h3>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group">
+              <ng-container *ngIf="props.evidence_type == 'PDF'; else url">
+                <input
+                  [disabled]="
+                    !props.add_evidences ||
+                    (props.evidence_status == 'OK' && user_group != 'admin')
+                  "
+                  type="file"
+                  name="evidence_file"
+                  id="evidence_file"
+                  class="form-control"
+                  (change)="onFileChange($event)"
+                  #fileInput
+                />
+                <a
+                  target="_blank"
+                  *ngIf="
+                    !props.evidence_file?.includes('base64') &&
+                    props.evidence_file != '' &&
+                    props.evidence_file != null
+                  "
+                  href="{{ props.evidence_file }}"
+                  download
+                  ><span class="input-group-text">
+                    <i class="fa icon-download fa-2x"></i>
+                  </span>
+                </a>
+              </ng-container>
+              <ng-template #url>
+                <div class="col-md-12 form-group">
+                  <label for="name">URL</label> <span class="required"> *</span>
+                  <input
+                    [disabled]="
+                      !props.add_evidences ||
+                      (props.evidence_status == 'OK' && user_group != 'admin')
+                    "
+                    [(ngModel)]="props.evidence_url"
+                    [ngModelOptions]="{ standalone: true }"
+                    type="text"
+                    name="name"
+                    class="form-control"
+                  />
+                </div>
+              </ng-template>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              #buttonClose
+              (click)="clear()"
+              class="btn btn-link"
+              data-dismiss="modal"
+            >
+              <i class="icon-cross2 font-size-base mr-1"></i>
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              [disabled]="
+                !props.add_evidences ||
+                (props.evidence_status == 'OK' && user_group != 'admin')
+              "
+              class="btn btn-primary"
+            >
+              Guardar archivo<i class="icon-cloud-upload ml-2"></i>
+            </button>
+          </div>
+        </form>
+      </ng-container>
+
+      <ng-container *ngIf="user_group == 'admin' || user_group == 'reviewer'">
+        <form (ngSubmit)="save_evidence_status()">
+          <div class="modal-header">
+            <h3 class="modal-title">Validar evidencia</h3>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="input-group">
+              <ng-container *ngIf="props.evidence_type == 'PDF'; else url">
+                <a
+                  style="padding-left: 8rem"
+                  target="_blank"
+                  *ngIf="
+                    !props.evidence_file?.includes('base64') &&
+                    props.evidence_file != '' &&
+                    props.evidence_file != null
+                  "
+                  href="{{ props.evidence_file }}"
+                  download
+                  ><span class="input-group-text">
+                    <i class="fa icon-download fa-2x"></i>
+                  </span>
+                </a>
+              </ng-container>
+              <ng-template #url>
+                <div class="col-md-12 form-group">
+                  <label for="name">URL</label>
+                  <input
+                    [disabled]="true"
+                    [(ngModel)]="props.evidence_url"
+                    [ngModelOptions]="{ standalone: true }"
+                    type="text"
+                    name="name"
+                    class="form-control"
+                  />
+                </div>
+              </ng-template>
+
+              <div class="col-md-6" style="text-align: end">
+                <mat-form-field appearance="fill">
+                  <mat-label>Seleccione el estatus de la evidencia</mat-label>
+                  <mat-select
+                    [(ngModel)]="props.evidence_status"
+                    [ngModelOptions]="{ standalone: true }"
+                  >
+                    <mat-option value="SEND" disabled>Subido</mat-option>
+                    <mat-option value="DUE" disabled>Pendiente</mat-option>
+                    <mat-option
+                      *ngFor="let _evidence_status of evidence_status"
+                      [value]="_evidence_status.value"
+                    >
+                      {{ _evidence_status.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="observation">Observaciones</label>
+                  <textarea
+                    name="observation"
+                    class="form-control"
+                    [(ngModel)]="props.evidence_observation"
+                    [ngModelOptions]="{ standalone: true }"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              #buttonClose
+              (click)="clear()"
+              class="btn btn-link"
+              data-dismiss="modal"
+            >
+              <i class="icon-cross2 font-size-base mr-1"></i>
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              [disabled]="!props.validate_evidences && user_group != 'admin'"
+              class="btn btn-primary"
+            >
+              Guardar estatus de la evidencia<i
+                class="icon-cloud-upload ml-2"
+              ></i>
+            </button>
+          </div>
+        </form>
+      </ng-container>
+    </div>
+  </div>
+</div>

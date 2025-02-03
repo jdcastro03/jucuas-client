@@ -1,0 +1,241 @@
+<!-- Content -->
+
+<div class="card-body">
+  <form [formGroup]="presenter_form" (ngSubmit)="save_presenter()">
+    <fieldset class="mb-3">
+      <legend class="font-weight-bold">
+        <i class="icon-file-text2 mr-2"></i>Información
+      </legend>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="first_name">Nombre</label>
+                <span class="required"> *</span>
+                <input
+                  type="text"
+                  name="first_name"
+                  class="form-control"
+                  formControlName="first_name"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="last_name">Apellido</label>
+                <span class="required"> *</span>
+                <input
+                  type="text"
+                  name="last_name"
+                  class="form-control"
+                  formControlName="last_name"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="curp">CURP</label>
+                <span class="required"> *</span>
+                <input
+                  [ngClass]="{
+                    inputMessage:
+                      presenter_form.controls['curp'].invalid &&
+                      (presenter_form.controls['curp'].dirty ||
+                        presenter_form.controls['curp'].touched)
+                  }"
+                  type="text"
+                  name="curp"
+                  class="form-control"
+                  formControlName="curp"
+                  required
+                />
+                <div
+                  *ngIf="
+                    presenter_form.controls['curp'].invalid &&
+                    (presenter_form.controls['curp'].dirty ||
+                      presenter_form.controls['curp'].touched)
+                  "
+                  class="alerta"
+                >
+                  <div>
+                    <p class="msj">El campo curp no es válido.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field
+                style=""
+                appearance="fill"
+                class="input_select w-100"
+              >
+                <mat-label>Seleccione un genero</mat-label>
+                <mat-select formControlName="gender">
+                  <mat-option
+                    *ngFor="let _gender of genders"
+                    [value]="_gender.value"
+                  >
+                    {{ _gender.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="email">Correo electrónico</label>
+                <span class="required"> *</span>
+                <input
+                  [ngClass]="{
+                    inputMessage:
+                      presenter_form.controls['email'].invalid &&
+                      (presenter_form.controls['email'].dirty ||
+                        presenter_form.controls['email'].touched)
+                  }"
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  formControlName="email"
+                />
+                <div
+                  *ngIf="
+                    presenter_form.controls['email'].invalid &&
+                    (presenter_form.controls['email'].dirty ||
+                      presenter_form.controls['email'].touched)
+                  "
+                  class="alerta"
+                >
+                  <div>
+                    <p class="msj">El campo correo no es válido.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="phone">Teléfono</label>
+                <input
+                  [ngClass]="{
+                    inputMessage:
+                      presenter_form.controls['phone'].invalid &&
+                      (presenter_form.controls['phone'].dirty ||
+                        presenter_form.controls['email'].touched)
+                  }"
+                  type="text"
+                  name="phone"
+                  minlength="10"
+                  maxlength="10"
+                  class="form-control"
+                  formControlName="phone"
+                  required
+                />
+                <div
+                  *ngIf="
+                    presenter_form.controls['phone'].invalid &&
+                    (presenter_form.controls['phone'].dirty ||
+                      presenter_form.controls['phone'].touched)
+                  "
+                  class="alerta"
+                >
+                  <div>
+                    <p class="msj">El campo telefono no es válido.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field appearance="fill" class="input_select w-100">
+                <mat-label>Seleccione un grado académico</mat-label>
+                <mat-select formControlName="academic_degree">
+                  <mat-option
+                    *ngFor="let _grade of grades"
+                    [value]="_grade.value"
+                  >
+                    {{ _grade.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field style="display: block" appearance="fill">
+                <mat-label>Seleccione una Universidad</mat-label>
+                <mat-select formControlName="origin_university">
+                  <mat-option
+                    *ngFor="let institution of institutions"
+                    [value]="institution.value"
+                  >
+                    {{ institution.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field style="display: block" appearance="fill">
+                <mat-label>Seleccione una Unidad Organizacional</mat-label>
+                <mat-select formControlName="origin_organizational_unit">
+                  <mat-option
+                    *ngFor="let org of organizational"
+                    [value]="org.value"
+                  >
+                    {{ org.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field appearance="fill" class="input_select w-100">
+                <mat-label>Seleccione una posicion en la institucion</mat-label>
+                <mat-select formControlName="position_institution">
+                  <mat-option
+                    *ngFor="let position_institution of positions_institutions"
+                    [value]="position_institution.value"
+                  >
+                    {{ position_institution.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field appearance="fill" class="input_select w-100">
+                <mat-label>Fecha de nacimiento</mat-label>
+                <input
+                  formControlName="birth_date"
+                  matInput
+                  [matDatepicker]="dp"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="dp"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #dp></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <div class="text-right">
+      <button
+        type="button"
+        [disabled]="!presenter_form.valid"
+        class="btn btn-primary"
+        (click)="save_presenter()"
+        data-dismiss="modal"
+      >
+        Guardar<i class="icon-cloud-upload ml-2"></i>
+      </button>
+    </div>
+  </form>
+</div>

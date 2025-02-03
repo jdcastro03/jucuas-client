@@ -1,0 +1,76 @@
+<!-- Page content -->
+<div class="page-content" style="min-height: 100vh">
+  <!-- Main content -->
+  <div class="content-wrapper">
+    <!-- Content area -->
+    <div class="content d-flex justify-content-center align-items-center">
+      <!-- Login form -->
+      <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="text-center mb-3">
+              <!-- <i class="icon-reading icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1"></i> -->
+              <img
+                src="assets/images/logo_login.png"
+                style="height: auto; max-width: 100%"
+                alt="Regresar al menu principal"
+
+              />
+              <span class="d-block text-muted">Bienvenido</span>
+            </div>
+            <div
+              class="form-group form-group-feedback form-group-feedback-left"
+            >
+              <input
+                type="text"
+                class="form-control"
+                name="username"
+                placeholder="Usuario"
+                formControlName="username"
+                required
+              />
+              <div class="form-control-feedback">
+                <i class="icon-user text-muted"></i>
+              </div>
+            </div>
+
+            <div
+              class="form-group form-group-feedback form-group-feedback-left"
+            >
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                placeholder="Contraseña"
+                formControlName="password"
+                required
+              />
+              <div class="form-control-feedback">
+                <i class="icon-lock2 text-muted"></i>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button
+                type="submit"
+                [disabled]="!loginForm.valid"
+                class="btn btn-primary btn-block"
+              >
+                Iniciar sesión <i class="icon-circle-right2 ml-2"></i>
+              </button>
+            </div>
+            <div class="form-group">
+              <p class="text-right">
+                <a style="color: #2196f3" href="auth/recovery">Recuperar Contraseña</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- /login form -->
+    </div>
+    <!-- /content area -->
+  </div>
+  <!-- /main content -->
+</div>
+<!-- /page content -->

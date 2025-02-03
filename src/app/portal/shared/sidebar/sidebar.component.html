@@ -1,0 +1,238 @@
+<ng-container *ngIf="login">
+  <!-- Main sidebar -->
+  <div class="sidebar sidebar-dark sidebar-main sidebar-expand-md">
+    <!-- Sidebar mobile toggler -->
+    <div class="sidebar-mobile-toggler text-center">
+      <a href="javascript:;" class="sidebar-mobile-main-toggle">
+        <i class="icon-arrow-left8"></i>
+      </a>
+    </div>
+    <!-- /sidebar mobile toggler -->
+
+    <!-- Sidebar content -->
+    <div class="sidebar-content">
+      <!-- User menu -->
+      <div class="sidebar-user">
+        <div class="card-body">
+          <div class="media">
+            <div class="mr-4">
+              <a href="#">
+                <!-- PONER UN ngIf PARA AGREGAR LA IMAGEN DEL USUARIO user.avatar -->
+                <img
+                  src="assets/images/placeholders/placeholder.jpg"
+                  width="38"
+                  height="38"
+                  class="rounded-circle"
+                />
+              </a>
+            </div>
+
+            <div class="media-body">
+              <div class="media-title font-weight-semibold">
+                {{ user.first_name }} {{ user.last_name }}
+              </div>
+              <div class="font-size-xs opacity-50">
+                <i class="icon-user font-size-sm"></i> &nbsp;
+                <ng-container *ngIf="user.groups[0].name == 'representative'">
+                  Enlace
+                </ng-container>
+                <ng-container *ngIf="user.groups[0].name == 'reviewer'">
+                  Revisor
+                </ng-container>
+                <ng-container *ngIf="user.groups[0].name == 'presenter'">
+                  Participante
+                </ng-container>
+                <ng-container *ngIf="user.groups[0].name == 'admin'">
+                  Administrador
+                </ng-container>
+
+                <ng-container *ngIf="user.origin_university">
+                  - {{ user.origin_university }}
+                </ng-container>
+                <ng-container *ngIf="user.origin_organizational_unit">
+                  - {{ user.origin_organizational_unit }}
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /user menu -->
+
+      <!-- Main navigation -->
+      <div class="card card-sidebar-mobile">
+        <ul class="nav nav-sidebar" data-nav-type="accordion">
+          <!-- Main -->
+          <ng-container>
+            <li class="nav-item">
+              <a
+                routerLink="/portal/dashboard"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="icon-home4"></i>
+                <span> Dashboard </span>
+              </a>
+            </li>
+          </ng-container>
+          <!-- Presenters -->
+          <li class="nav-item" *ngIf="user.groups[0].name == 'admin' || user.groups[0].name == 'representative'">
+            <a
+              routerLink="/portal/presenters"
+              routerLinkActive="active"
+              class="nav-link"
+            >
+              <i class="icon-presentation"></i>
+              <span>Participantes</span>
+            </a>
+          </li>
+          <!-- /Presenters -->
+          <ng-container *ngIf="user.groups[0].name == 'admin'">
+            <!-- Representatives -->
+            <li class="nav-item">
+              <a
+                routerLink="/portal/representatives"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="icon-link"></i>
+                <span>Representantes</span>
+              </a>
+            </li>
+            <!-- /Representatives -->
+            <!-- Universities -->
+            <li class="nav-item">
+              <a
+                routerLink="/portal/universities"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="icon-books"></i>
+                <span>Unidades Academicas</span>
+              </a>
+            </li>
+            <!-- Constancias impresaspruebas -->
+            <li class="nav-item">
+              <a
+                routerLink="/portal/constancy"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="icon-books"></i>
+                <span>Constancias</span>
+              </a>
+            </li>
+            <!-- /Universities -->
+            <!-- OrganizationalUnits -->
+            <li class="nav-item">
+              <a
+                routerLink="/portal/organizational-units"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="icon-city"></i>
+                <span>Unidades Organizacionales</span>
+              </a>
+            </li>
+            <!-- /OrganizationalUnits -->
+            <!-- ActivityManagers -->
+            <!-- <li class="nav-item">
+                            <a routerLink="/portal/activity-managers" routerLinkActive="active" class="nav-link">
+                                <i class="icon-user-tie"></i>
+                                <span>Responsables de actividad</span>
+                            </a>
+                         </li> -->
+            <!-- /ActivityManagers -->
+            <!-- Reviewers -->
+            <li class="nav-item">
+              <a
+                routerLink="/portal/reviewers"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="icon-clipboard2"></i>
+                <span>Revisores</span>
+              </a>
+            </li>
+            <!-- /Reviewers -->
+            <!-- Deadline -->
+            <li class="nav-item">
+              <a
+                routerLink="/portal/deadlines"
+                routerLinkActive="active"
+                class="nav-link"
+              >
+                <i class="icon-calendar"></i>
+                <span>Fechas limite</span>
+              </a>
+            </li>
+            <!-- /Deadline -->
+          </ng-container>
+          <!-- Activities -->
+          <li class="nav-item nav-item-submenu">
+            <a class="nav-link menu"
+              ><i class="icon-graph"></i> <span>Actividades</span></a
+            >
+            <ul class="nav nav-group-sub" data-submenu-title="Actividades">
+              <ng-container
+                *ngIf="
+                  user.groups[0].name == 'admin' ||
+                  user.groups[0].name == 'representative' ||
+                  user.groups[0].name == 'presenter'
+                "
+              >
+                <li class="nav-item">
+                  <a
+                    routerLink="/portal/activities"
+                    routerLinkActive="active"
+                    class="nav-link"
+                    >Actividades</a
+                  >
+                </li>
+              </ng-container>
+              <ng-container
+                *ngIf="
+                  user.groups[0].name == 'admin' ||
+                  user.groups[0].name == 'representative' ||
+                  user.groups[0].name == 'reviewer'
+                "
+              >
+                <li class="nav-item">
+                  <a
+                    routerLink="/portal/evidences"
+                    routerLinkActive="active"
+                    class="nav-link"
+                    >Evidencias</a
+                  >
+                </li>
+              </ng-container>
+              <ng-container *ngIf="user.groups[0].name == 'admin'">
+                <li class="nav-item">
+                  <a
+                    routerLink="/portal/type-activities"
+                    routerLinkActive="active"
+                    class="nav-link"
+                    >Tipo de actividades</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    routerLink="/portal/type-evidences"
+                    routerLinkActive="active"
+                    class="nav-link"
+                    >Tipo de evidencias</a
+                  >
+                </li>
+              </ng-container>
+            </ul>
+          </li>
+          <!-- Activities -->
+          <!-- /main -->
+        </ul>
+      </div>
+      <!-- /main navigation -->
+    </div>
+    <!-- /sidebar content -->
+  </div>
+  <!-- /main sidebar -->
+</ng-container>

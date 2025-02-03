@@ -1,0 +1,331 @@
+<div class="page-header page-header-light">
+  <div class="page-header-content header-elements-md-inline">
+    <div class="page-title d-flex">
+      <h4>
+        <a href="#"><i class="icon-arrow-left52 mr-2"></i></a>
+        <span class="font-weight-semibold"
+          >Lista de actividades para subir evidencia</span
+        >
+      </h4>
+      <a href="#" class="header-elements-toggle text-default d-md-none"
+        ><i class="icon-more"></i
+      ></a>
+    </div>
+
+    <div class="header-elements text-center d-none">
+      <!-- agregar un *ngIf para el validador -->
+      <div class="justify-content-center"></div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="card">
+    <div class="card-header bg-white header-elements-inline">
+      <h5 class="card-title" (click)="show()">Lista de Actividades para subir evidencia</h5>
+      {{ evidence_url }}
+    </div>
+    <div class="card-body">
+      <div class="table-data-attr">
+        <app-input-search
+          [getPaginationWrapperFunction]="activities.getFilteredTableActivities"
+          [(next)]="next"
+          [(previous)]="previous"
+          [(pageSize)]="pageSize"
+          [(currentPage)]="currentPage"
+          (filtroChange)="filter = $event"
+          [(arrayEntries)]="activities_list"
+          [(count)]="count"
+          [(firstEntry)]="firstEntry"
+          [(lastEntry)]="lastEntry"
+          [form]="'evidences'"
+        ></app-input-search>
+        <div class="dataTables_length">
+          <label
+            >Mostrar
+            <select [(ngModel)]="pageSize">
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            resultados</label
+          >
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          class="table"
+        >
+          <thead>
+            <tr>
+              <th>Actividad</th>
+              <th>Tipo de actividad</th>
+              <th>Evidencias</th>
+              <ng-container *ngIf="user_group != 'reviewer'">
+                <th>Asistentes</th>
+              </ng-container>
+              <th>Unidad en la que se Realizó</th>
+              <th>Participante</th>
+              <th>Edición</th>
+              <ng-container *ngIf="user_group != 'reviewer'">
+                <th>Constancia</th>
+              </ng-container>
+              <ng-container
+                *ngIf="user_group == 'reviewer' || user_group == 'admin'"
+              >
+                <th>Re-generar constancia</th>
+              </ng-container>
+              <th>Estatus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let activity of activities_list">
+              <td>{{ activity.name }}</td>
+              <td>{{ activity.type.name }}</td>
+              <td>
+                <!-- <ng-container *ngFor="let type_evidence of activity.type.type_evidence">
+                                    <button data-toggle="modal" data-target="#modal_evidences" class="btn mr-2" data-placement="top" title={{type_evidence.name}} (click)="set_activity_and_evidence_id(activity.id, type_evidence.id, type_evidence.name, type_evidence.type)"><i [ngClass]="type_evidence.type == 'PDF' ? 'icon-file-pdf' : 'icon-hyperlink'"></i></button>
+                                </ng-container> -->
+                <ng-container *ngFor="let evidence of activity.evidences">
+                  <ng-container *ngIf="evidence.evidence_status == 'SEND'">
+                    <button
+                      style="background-color: aqua"
+                      data-toggle="modal"
+                      data-target="#modal_evidences"
+                      class="btn mr-2"
+                      data-placement="top"
+                      title="{{ evidence.type_evidence.name }}"
+                      (click)="
+                        set_activity_and_evidence_id(
+                          activity.id,
+                          evidence.id,
+                          evidence.type_evidence.id,
+                          evidence.type_evidence.name,
+                          evidence.type_evidence.type,
+                          evidence.evidence_status,
+                          evidence.observation
+                        )
+                      "
+                    >
+                      <i
+                        [ngClass]="
+                          evidence.type_evidence.type == 'PDF'
+                            ? 'icon-file-pdf'
+                            : 'icon-hyperlink'
+                        "
+                      ></i>
+                    </button>
+                  </ng-container>
+                  <ng-container *ngIf="evidence.evidence_status == 'DUE'">
+                    <button
+                      data-toggle="modal"
+                      data-target="#modal_evidences"
+                      class="btn mr-2"
+                      data-placement="top"
+                      title="{{ evidence.type_evidence.name }}"
+                      (click)="
+                        set_activity_and_evidence_id(
+                          activity.id,
+                          evidence.id,
+                          evidence.type_evidence.id,
+                          evidence.type_evidence.name,
+                          evidence.type_evidence.type,
+                          evidence.evidence_status,
+                          evidence.observation
+                        )
+                      "
+                    >
+                      <i
+                        [ngClass]="
+                          evidence.type_evidence.type == 'PDF'
+                            ? 'icon-file-pdf'
+                            : 'icon-hyperlink'
+                        "
+                      ></i>
+                    </button>
+                  </ng-container>
+                  <ng-container *ngIf="evidence.evidence_status == 'INC'">
+                    <button
+                      style="background-color: yellow"
+                      data-toggle="modal"
+                      data-target="#modal_evidences"
+                      class="btn mr-2"
+                      data-placement="top"
+                      title="{{ evidence.type_evidence.name }}"
+                      (click)="
+                        set_activity_and_evidence_id(
+                          activity.id,
+                          evidence.id,
+                          evidence.type_evidence.id,
+                          evidence.type_evidence.name,
+                          evidence.type_evidence.type,
+                          evidence.evidence_status,
+                          evidence.observation
+                        )
+                      "
+                    >
+                      <i
+                        [ngClass]="
+                          evidence.type_evidence.type == 'PDF'
+                            ? 'icon-file-pdf'
+                            : 'icon-hyperlink'
+                        "
+                      ></i>
+                    </button>
+                  </ng-container>
+                  <ng-container *ngIf="evidence.evidence_status == 'REJECT'">
+                    <button
+                      style="background-color: red"
+                      data-toggle="modal"
+                      data-target="#modal_evidences"
+                      class="btn mr-2"
+                      data-placement="top"
+                      title="{{ evidence.type_evidence.name }}"
+                      (click)="
+                        set_activity_and_evidence_id(
+                          activity.id,
+                          evidence.id,
+                          evidence.type_evidence.id,
+                          evidence.type_evidence.name,
+                          evidence.type_evidence.type,
+                          evidence.evidence_status,
+                          evidence.observation
+                        )
+                      "
+                    >
+                      <i
+                        [ngClass]="
+                          evidence.type_evidence.type == 'PDF'
+                            ? 'icon-file-pdf'
+                            : 'icon-hyperlink'
+                        "
+                      ></i>
+                    </button>
+                  </ng-container>
+                  <ng-container *ngIf="evidence.evidence_status == 'OK'">
+                    <button
+                      style="background-color: #4caf50"
+                      data-toggle="modal"
+                      data-target="#modal_evidences"
+                      class="btn mr-2"
+                      data-placement="top"
+                      title="{{ evidence.type_evidence.name }}"
+                      (click)="
+                        set_activity_and_evidence_id(
+                          activity.id,
+                          evidence.id,
+                          evidence.type_evidence.id,
+                          evidence.type_evidence.name,
+                          evidence.type_evidence.type,
+                          evidence.evidence_status,
+                          evidence.observation
+                        )
+                      "
+                    >
+                      <i
+                        [ngClass]="
+                          evidence.type_evidence.type == 'PDF'
+                            ? 'icon-file-pdf'
+                            : 'icon-hyperlink'
+                        "
+                      ></i>
+                    </button>
+                  </ng-container>
+                </ng-container>
+              </td>
+              <ng-container *ngIf="user_group != 'reviewer'">
+                <td>
+                  <app-total-attendees-form
+                    [props]="{activity}"
+                  ></app-total-attendees-form>
+                </td>
+              </ng-container>
+              <td>
+                <ng-container *ngIf="activity.created_by.origin_organizational_unit">
+                  {{ activity.created_by.origin_organizational_unit}}
+                </ng-container>
+                <ng-container *ngIf="activity.created_by.origin_university">
+                  {{ activity.created_by.origin_university}}
+                </ng-container>
+              </td>
+              <td>
+                <ng-container *ngIf="activity.presenter"
+                  >{{ activity.presenter.first_name }}
+                  {{ activity.presenter.last_name }}</ng-container
+                >
+                <ng-container *ngIf="!activity.presenter.id"
+                  >Sin presentador</ng-container
+                >
+              </td>
+              <td>{{ activity.edition.date_edition }}</td>
+              <ng-container *ngIf="user_group != 'reviewer'">
+                <td>
+                  <a
+                    target="_blank"
+                    *ngIf="
+                      !activity.certificate_file?.includes('base64') &&
+                      activity.certificate_file != '' &&
+                      activity.certificate_file != null
+                    "
+                    href="{{ activity.certificate_file }}"
+                    download
+                  >
+                    <span class="input-group-text" style="width: max-content">
+                      <i class="fa icon-download fa-2x"></i>
+                    </span>
+                  </a>
+                </td>
+              </ng-container>
+              <ng-container
+                *ngIf="user_group == 'reviewer' || user_group == 'admin'"
+              >
+                <td>
+                  <button
+                    (click)="re_generate_constansy(activity.id)"
+                    type="submit"
+                    *ngIf="
+                      !activity.certificate_file?.includes('base64') &&
+                      activity.certificate_file != '' &&
+                      activity.certificate_file != null &&
+                      activity.activity_status == 'OK'
+                    "
+                    class="btn btn-primary">Re-generar constancia<i class="icon-cloud-upload ml-2"></i>
+                  </button>
+                </td>
+              </ng-container>
+              <td>
+                <span *ngIf="activity.is_active" class="badge badge-success"
+                  >Activo</span
+                >
+                <span *ngIf="!activity.is_active" class="badge badge-warning"
+                  >Inactivo</span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <app-table-pagination
+          [getPaginationWrapperFunction]="paginationWrapperFunction"
+          [(pageSize)]="pageSize"
+          [(currentPage)]="currentPage"
+          [(arrayEntries)]="activities_list"
+          [filtro]="filter"
+          [(nextPage)]="next"
+          [(previousPage)]="previous"
+          [(firstEntry)]="firstEntry"
+          [(lastEntry)]="lastEntry"
+          [(count)]="count"
+        ></app-table-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-evidences-form
+  [props]="{activity_id, evidence_id, evidence_type_id, evidence_name, evidence_type, evidence_file, evidence_url, add_evidences, validate_evidences, evidence_status, evidence_observation}"
+  #modal
+></app-evidences-form>

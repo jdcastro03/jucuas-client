@@ -1,0 +1,15 @@
+<app-navbar></app-navbar>
+<div class="page-content">
+    <app-sidebar></app-sidebar>
+
+    <div class="content-wrapper">
+        <router-outlet></router-outlet>
+
+        <!-- Footer -->
+        <div class="navbar navbar-expand-lg navbar-light" style="bottom: 0; position: fixed; width: 100%;">
+            <span class="navbar-text">
+                &copy; {{year}}. <a href="">UAS</a>
+            </span>
+        </div>
+    </div>
+</div>

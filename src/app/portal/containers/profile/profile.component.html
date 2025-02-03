@@ -1,0 +1,232 @@
+<div class="page-header page-header-light col-md-12">
+  <div class="page-header-content header-elements-md-inline">
+    <div class="page-title d-flex">
+      <h4>
+        <a href="#"><i class="icon-arrow-left52 mr-2"></i></a>
+        <span class="font-weight-semibold">Mi Perfil</span>
+      </h4>
+      <!-- <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a> -->
+    </div>
+
+    <div class="header-elements text-center d-none">
+      <!-- agregar un *ngIf para el validador -->
+      <div class="justify-content-center"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Contenido general -->
+<div class="c" style="padding: 50px 30px">
+  <!-- Foto de Perfil -->
+  <!--
+    TODO:
+      No poner la foto de perfil porque el server se carga de fotos innecesarias hasta nuevo aviso
+   -->
+  <!-- <div>
+    <a href="#">
+      <!-- PONER UN ngIf PARA AGREGAR LA IMAGEN DEL USUARIO user.avatar
+      <img
+        alt=""
+        src="assets/images/placeholders/placeholder.jpg"
+        width="100"
+        class="rounded-circle"
+      />
+    </a>
+  </div> -->
+
+  <table class="table col-md-12">
+    <thead>
+      <tr>
+        <th class="col-md-2">Dato</th>
+        <th>Valor</th>
+        <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="data.username && !isPresenter">
+        <td>Nombre de Usuario</td>
+        <td>{{ data.username }}</td>
+        <td class="text-center">
+        </td>
+      </tr>
+      <tr *ngIf="data.first_name && data.last_name">
+        <td>Nombre Completo</td>
+        <td>
+          <div *ngIf="!editingName">
+            <b style="font-weight: 500;">{{ data.first_name }}</b> {{ data.last_name }}
+          </div>
+          <div *ngIf="editingName">
+            <!-- Campos de edición separados para nombre y apellidos -->
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="first_name">Nombre(s)</label> <span class="required"> *</span>
+                <input type="text" id="first_name" class="form-control" required [(ngModel)]="editedFirstName">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="last_name">Apellidos</label> <span class="required"> *</span>
+                <input type="text" id="last_name" class="form-control" required [(ngModel)]="editedLastName">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <!-- Botón de Guardar -->
+              <button class="btn btn-primary" (click)="saveName()">Guardar</button>
+            </div>
+          </div>
+        </td>
+        <td class="text-center">
+          <div class="list-icons text-center">
+            <div class="dropdown">
+              <a href="#" class="list-icons-item" data-toggle="dropdown">
+                <i class="icon-menu9"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" (click)="editName()">
+                  <i class="icon-pencil7"></i> Editar Nombre
+                </a>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <tr *ngIf="data.gender">
+        <td>Genero</td>
+        <td>
+          <p style="margin:0;" *ngIf="!editingGender">{{ data.g }}</p>
+          <mat-form-field class="col-md-12" *ngIf="editingGender" appearance="fill">
+            <mat-label>Seleccione un Género</mat-label>
+            <mat-select [(ngModel)]="selectedGender" (selectionChange)="saveGender()">
+              <mat-option value="H">Hombre</mat-option>
+              <mat-option value="M">Mujer</mat-option>
+              <mat-option value="O">Otro</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td class="text-center">
+          <div class="list-icons text-center">
+            <div class="dropdown">
+              <a href="#" class="list-icons-item" data-toggle="dropdown">
+                <i class="icon-menu9"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" (click)="editGender()">
+                  <i class="icon-pencil7"></i> Editar Género
+                </a>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <tr *ngIf="data.groups">
+        <td>Rol (es)</td>
+        <b  style="font-weight: 500;"><td *ngFor="let i of data.groups; let last = last">
+          {{ roles(i.name) }}{{ last ? "" : "," }}
+        </td></b>
+        <td>
+        </td>
+      </tr>
+      <tr *ngIf="data.email">
+        <td>Correo</td>
+        <td>
+          <div *ngIf="!editingMail">
+            {{ data.email }}
+          </div>
+          <div *ngIf="editingMail">
+            <!-- Campo de edición para el correo -->
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="email">Correo</label> <span class="required"> *</span>
+                <input type="email" id="email" class="form-control" required [(ngModel)]="editedMail">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <!-- Botón de Guardar -->
+              <button class="btn btn-primary" (click)="saveMail()">Guardar</button>
+            </div>
+          </div>
+        </td>
+        <td class="text-center">
+          <div class="list-icons text-center">
+            <div class="dropdown">
+              <a href="#" class="list-icons-item" data-toggle="dropdown">
+                <i class="icon-menu9"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" (click)="editMail()">
+                  <i class="icon-pencil7"></i> Cambiar Correo
+                </a>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <tr *ngIf="data.phone">
+        <td>Teléfono</td>
+        <td>
+          <div *ngIf="!editingPhone">
+            {{ data.phone }}
+          </div>
+          <div *ngIf="editingPhone">
+            <!-- Campo de edición para el teléfono -->
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="phone">Teléfono</label> <span class="required"> *</span>
+                <input type="number" id="phone" class="form-control" required [(ngModel)]="editedPhone">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <!-- Botón de Guardar -->
+              <button class="btn btn-primary" (click)="savePhone()">Guardar</button>
+            </div>
+          </div>
+        </td>
+        <td class="text-center">
+          <div class="list-icons text-center">
+            <div class="dropdown">
+              <a href="#" class="list-icons-item" data-toggle="dropdown">
+                <i class="icon-menu9"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" (click)="editPhone()">
+                  <i class="icon-pencil7"></i> Editar Teléfono
+                </a>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- A ordenes de la patrona -->
+      <!-- <tr *ngIf="data.username">
+        <td>Contraseña</td>
+        No se puede sacar la longitud de la pass ya que
+          está cifrada con SHA256
+        <td>**********</td>
+        <td class="text-center">
+          <div class="list-icons text-center">
+            <div class="dropdown">
+              <a href="#" class="list-icons-item" data-toggle="dropdown">
+                <i class="icon-menu9"></i>
+              </a>
+
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item"
+                  ><i class="icon-pencil7"></i>Agregar/Eliminar Rol (es)</a
+                >
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr> -->
+    </tbody>
+  </table>
+
+  <!--
+  TODO:
+  Meter el listado de constancias de myself mismx
+ -->
+</div>

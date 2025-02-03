@@ -1,0 +1,81 @@
+<!-- Header -->
+<div class="page-header page-header-light">
+    <div class="page-header-content header-elements-md-inline">
+        <div class="page-title d-flex">
+            <h4><a routerLink="/portal/activity-managers"><i class="icon-arrow-left52 mr-2"></i></a><span class="font-weight-semibold">Responsables de actividad</span></h4>
+        </div>
+    </div>
+</div>
+<!-- Content -->
+<div class="content">
+    <div class="card">
+        <div class="card-header bg-white header-elements-inline">
+            <h5 class="card-title">{{form_type}} Responsable de actividad</h5>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="activity_manager_form" (ngSubmit)="save_activity_manager()">
+                <fieldset class="mb-3">
+                    <legend class="font-weight-bold"><i class="icon-file-text2 mr-2"></i>Información</legend>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+    
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="first_name">Nombre</label> <span class="required"> *</span>
+                                        <input type="text" name="first_name" class="form-control" formControlName="first_name" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="last_name">Apellido</label> <span class="required"> *</span>
+                                        <input type="text" name="last_name" class="form-control" formControlName="last_name" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Seleccione un genero</mat-label>
+                                        <mat-select formControlName="gender">
+                                          <mat-option *ngFor="let _gender of genders" [value]="_gender.value">
+                                            {{_gender.viewValue}}
+                                          </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label for="email">Correo electrónico</label> <span class="required"> *</span>
+                                      <input type="email" name="email" class="form-control" formControlName="email"/>
+                                    </div>
+                                    <div *ngIf="activity_manager_form.controls['email'].invalid && (activity_manager_form.controls['email'].dirty || activity_manager_form.controls['email'].touched)" class="alert">
+                                        <div *ngIf="activity_manager_form.controls['email'].errors">
+                                            <p class="msj">No deje vacio el campo correo o ingreselo correctamente</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Fecha de nacimiento</mat-label>
+                                        <input formControlName="birth_date" matInput [matDatepicker]="dp">
+                                        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+
+    
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="text-right">
+                    <a class="btn btn-link" routerLink="/portal/activity-managers"><i class="icon-cross2 font-size-base mr-1"></i>Cancelar</a>
+                    <button type="submit" [disabled]="!activity_manager_form.valid" class="btn btn-primary">Guardar<i class="icon-cloud-upload ml-2"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

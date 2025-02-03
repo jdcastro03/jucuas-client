@@ -1,0 +1,213 @@
+<div class="page-header page-header-light">
+  <div class="page-header-content header-elements-md-inline">
+    <div class="page-title d-flex">
+      <h4>
+        <a href="#"><i class="icon-arrow-left52 mr-2"></i></a>
+        <span class="font-weight-semibold">Actividades</span>
+      </h4>
+      <a href="#" class="header-elements-toggle text-default d-md-none"
+        ><i class="icon-more"></i
+      ></a>
+    </div>
+    <div *ngIf="add_activities" class="header-elements text-center d-none">
+      <!-- agregar un *ngIf para el validador -->
+      <div class="justify-content-center">
+        <a href="/portal/activities/add" class="btn bg-success"
+          ><span>Nuevo<i class="icon-plus3 ml-2"></i></span
+        ></a>
+      </div>
+    </div>
+
+    <div class="header-elements text-center d-none">
+      <!-- agregar un *ngIf para el validador -->
+      <div class="justify-content-center"></div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="card">
+    <div class="card-header bg-white header-elements-inline">
+      <h5 class="card-title" (click)="show()">Lista de Actividades</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-data-attr">
+        <app-input-search
+          [getPaginationWrapperFunction]="activities.getFilteredTableActivities"
+          [(next)]="next"
+          [(previous)]="previous"
+          [(pageSize)]="pageSize"
+          [(currentPage)]="currentPage"
+          (filtroChange)="filter = $event"
+          [(arrayEntries)]="activities_list"
+          [(count)]="count"
+          [(firstEntry)]="firstEntry"
+          [(lastEntry)]="lastEntry"
+          [form]="'activities'"
+        ></app-input-search>
+        <div class="dataTables_length">
+          <label
+            >Mostrar
+            <select [(ngModel)]="pageSize">
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            resultados</label
+          >
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          class="table"
+        >
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Tipo de actividad</th>
+              <th>Unidad en la que se realizó la actividad</th>
+              <th *ngIf="!isPresenter">Participante</th>
+              <th>Edición</th>
+              <th>Constancia</th>
+              <th>Estatus</th>
+              <th class="text-center" *ngIf="isAdmin">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let activity of activities_list">
+              <td>{{ activity.name }}</td>
+              <td>{{ activity.type.name }}</td>
+              <td>
+                <ng-container *ngIf="activity.created_by.origin_university">
+                  {{ activity.created_by.origin_university }}</ng-container
+                >
+                <ng-container
+                  *ngIf="activity.created_by.origin_organizational_unit"
+                >
+                  {{
+                    activity.created_by.origin_organizational_unit
+                  }}</ng-container
+                >
+              </td>
+              <td *ngIf="!isPresenter">
+                <ng-container *ngIf="activity.presenter"
+                  >{{ activity.presenter.first_name }}
+                  {{ activity.presenter.last_name }}</ng-container
+                >
+                <ng-container *ngIf="!activity.presenter.id"
+                  >Sin participante</ng-container
+                >
+              </td>
+              <td>{{ activity.edition.date_edition }}</td>
+              <td>
+                <a
+                  target="_blank"
+                  *ngIf="
+                    !activity.certificate_file?.includes('base64') &&
+                    activity.certificate_file != '' &&
+                    activity.certificate_file != null
+                  "
+                  href="{{ activity.certificate_file }}"
+                  download
+                >
+                  <span class="input-group-text" style="width: max-content">
+                    <i class="fa icon-download fa-2x"></i>
+                  </span>
+                </a>
+              </td>
+              <td>
+                <span *ngIf="activity.is_active" class="badge badge-success"
+                  >Activo</span
+                >
+                <span *ngIf="!activity.is_active" class="badge badge-warning"
+                  >Inactivo</span
+                >
+              </td>
+              <td class="text-center" *ngIf="isAdmin">
+                <div class="list-icons">
+                  <div class="dropdown">
+                    <a href="#" class="list-icons-item" data-toggle="dropdown">
+                      <i class="icon-menu9"></i>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a
+                        [routerLink]="['/portal/activities', activity.id]"
+                        class="dropdown-item"
+                        ><i class="icon-pencil7"></i> Editar</a
+                      >
+                      <a
+                        data-toggle="modal"
+                        data-target="#modal_delete"
+                        (click)="set_activity_id(activity.id)"
+                        class="dropdown-item"
+                        ><i class="icon-bin"></i> Eliminar</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <app-table-pagination
+          [getPaginationWrapperFunction]="paginationWrapperFunction"
+          [(pageSize)]="pageSize"
+          [(currentPage)]="currentPage"
+          [(arrayEntries)]="activities_list"
+          [filtro]="filter"
+          [nextPage]="next"
+          [previousPage]="previous"
+          [(firstEntry)]="firstEntry"
+          [(lastEntry)]="lastEntry"
+          [(count)]="count"
+        ></app-table-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete modal -->
+<div id="modal_delete" class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmar</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div
+          class="alert alert-danger alert-dismissible alert-styled-left border-top-0 border-bottom-0 border-right-0"
+        >
+          <span class="font-weight-semibold">
+            <h4>¿Estás seguro que deseas eliminar el registro?</h4> </span
+          >El registro se eliminará permanentemente.
+        </div>
+        <hr />
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-link" data-dismiss="modal">
+          <i class="icon-cross2 font-size-base mr-1"></i>
+          Cancelar
+        </button>
+        <button
+          class="btn bg-danger"
+          (click)="delete_activity()"
+          data-dismiss="modal"
+        >
+          <i class="icon-bin font-size-base mr1"></i>
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Delete modal -->

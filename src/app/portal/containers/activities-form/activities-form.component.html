@@ -1,0 +1,329 @@
+<!-- Header -->
+<div class="page-header page-header-light">
+  <div class="page-header-content header-elements-md-inline">
+    <div class="page-title d-flex">
+      <h4>
+        <a routerLink="/portal/activities"
+          ><i class="icon-arrow-left52 mr-2"></i></a
+        ><span class="font-weight-semibold">Actividades</span>
+      </h4>
+    </div>
+  </div>
+  <style>
+    .test {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+  </style>
+</div>
+<!-- Content -->
+<div class="content">
+  <div class="card">
+    <div class="card-header bg-white header-elements-inline">
+      <h5 class="card-title">{{ form_type }} Actividades</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="activity_form" (ngSubmit)="save_activity()">
+        <fieldset class="mb-3">
+          <legend class="font-weight-bold">
+            <i class="icon-file-text2 mr-2"></i>Información
+          </legend>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field appearance="fill" class="input_select">
+                    <mat-label>Seleccione el tipo de actividad</mat-label>
+                    <mat-select formControlName="type">
+                      <mat-option
+                        (click)="itemChangeAct(type_activity.viewValue, i)"
+                        *ngFor="
+                          let type_activity of typeActivitiesList;
+                          let i = index
+                        "
+                        [value]="type_activity.value"
+                      >
+                        {{ type_activity.viewValue }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="name">Nombre de la actividad</label>
+                    <span class="required"> *</span>
+                    <input
+                      type="text"
+                      name="name"
+                      class="form-control"
+                      formControlName="name"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="description">Descripción de la actividad</label>
+                    <span class="required"> *</span>
+                    <input
+                      type="text"
+                      name="description"
+                      class="form-control"
+                      formControlName="description"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <!-- MOVERLO A LA PARTE DE EVIDENCIAS -->
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="numbers_expected_attendees"
+                      >Número de asistentes esperados</label
+                    >
+                    <input
+                      type="text"
+                      name="numbers_expected_attendees"
+                      maxlength="3"
+                      class="form-control"
+                      formControlName="numbers_expected_attendees"
+                      required
+                    />
+                    <div
+                      *ngIf="
+                        f['numbers_expected_attendees'].touched &&
+                        f['numbers_expected_attendees'].invalid
+                      "
+                      class="alert alert-danger"
+                    >
+                      <div
+                        *ngIf="
+                          f['numbers_expected_attendees'].errors &&
+                          f['numbers_expected_attendees'].errors['required']
+                        "
+                      >
+                        El número es requerido.
+                      </div>
+                      <div
+                        *ngIf="
+                          f['numbers_expected_attendees'].errors &&
+                          f['numbers_expected_attendees'].errors['pattern']
+                        "
+                      >
+                        Ingrese solo números.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill" class="input_select">
+                    <mat-label>Modalidad</mat-label>
+                    <mat-select formControlName="modality">
+                      <mat-option
+                        *ngFor="let modality of modalities"
+                        [value]="modality.value"
+                      >
+                        {{ modality.viewValue }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill" class="input_select">
+                    <mat-label>Tipo de público al cual va dirigido</mat-label>
+                    <mat-select formControlName="type_of_public">
+                      <mat-option
+                        *ngFor="let type_of_public of types_of_public"
+                        [value]="type_of_public.value"
+                      >
+                        {{ type_of_public.viewValue }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill" class="input_select">
+                    <mat-label>Fecha de la actividad</mat-label>
+                    <input
+                      formControlName="date_activity"
+                      matInput
+                      [matDatepicker]="dactivity"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="dactivity"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #dactivity></mat-datepicker>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill" class="input_select">
+                    <mat-label>Nivel educativo al cual está dirigido</mat-label>
+                    <mat-select
+                      formControlName="educational_level_to_is_directed"
+                    >
+                      <mat-option
+                        *ngFor="let educational_level of educational_levels"
+                        [value]="educational_level.value"
+                      >
+                        {{ educational_level.viewValue }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill" class="input_select">
+                    <mat-label>Area de conocimiento</mat-label>
+                    <mat-select formControlName="area_knowledge">
+                      <mat-option
+                        *ngFor="let knowledge_area of knowledge_areas"
+                        [value]="knowledge_area.value"
+                      >
+                        {{ knowledge_area.viewValue }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="addPresenter">
+                    <mat-form-field appearance="fill" class="input_select">
+                      <mat-label>Seleccione un Participante</mat-label>
+                      <input
+                        type="text"
+                        [(ngModel)]="pre_text"
+                        class="form-control"
+                        (input)="onSearchChange($event)"
+                        matInput
+                        [formControl]="pre_Control"
+                        formControlName="presenter"
+                        [matAutocomplete]="preauto"
+                      />
+                      <mat-autocomplete #preauto="matAutocomplete">
+                        <mat-option
+                          (click)="itemChangePre(option.viewValue, i)"
+                          *ngFor="let option of presentersList; let i = index"
+                          [value]="option.viewValue"
+                        >
+                          {{ option.viewValue }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="col-md-6" *ngIf="user.groups[0].name == 'admin'">
+                  <ng-container>
+                    <mat-form-field appearance="fill" class="input_select">
+                      <mat-label>Seleccione la Edición</mat-label>
+                      <mat-select
+                        formControlName="edition_list"
+                        [(value)]="selected_edition"
+                      >
+                        <mat-option
+                          *ngFor="let edition of editions"
+                          [value]="edition.value"
+                        >
+                          {{ edition.viewValue }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </ng-container>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field
+                    appearance="fill"
+                    class="input_select"
+                    #copresenter_field
+                    [hidden]="!InputShow"
+                  >
+                    <mat-label [textContent]="copresenter_msg"></mat-label>
+                    <input
+                      type="text"
+                      [(ngModel)]="co_text"
+                      class="form-control"
+                      (input)="onSearchChangeCo($event)"
+                      matInput
+                      [formControl]="co_Control"
+                      formControlName="co_presenter"
+                      [matAutocomplete]="coauto"
+                    />
+                    <mat-autocomplete #coauto="matAutocomplete">
+                      <mat-option
+                        (click)="itemChangeCo(cooption.viewValue, i)"
+                        *ngFor="let cooption of copresentersList; let i = index"
+                        [value]="cooption.viewValue"
+                      >
+                        {{ cooption.viewValue }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+              </div>
+              <ul>
+                <li *ngFor="let item of items; let i = index">
+                  {{ item }}
+                  <button
+                    type="button"
+                    (click)="removeItem(i)"
+                    class="btn btn-primary mb1 bg-red"
+                  >
+                    Eliminar<i class="icon-cross ml-2"></i>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </fieldset>
+        <div class="test">
+          <div>
+            <button
+              type="button"
+              class="btn btn-primary bg-green"
+              data-toggle="modal"
+              data-target="#modal_delete"
+            >
+              Agregar Participante <i class="icon-add"></i>
+            </button>
+          </div>
+          <div>
+            <a class="btn btn-link" routerLink="/portal/activities"
+              ><i class="icon-cross2 font-size-base mr-1"></i>Cancelar</a
+            >
+            <button type="submit" class="btn btn-primary">
+              Guardar<i class="icon-cloud-upload ml-2"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete modal -->
+<div id="modal_delete" class="modal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Agregar participante</h2>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <app-presenters-modal></app-presenters-modal>
+      </div>
+    </div>
+  </div>
+</div>

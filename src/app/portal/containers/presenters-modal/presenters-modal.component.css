@@ -1,0 +1,15 @@
+.msj {
+    color: #e90404;
+    font-size: 13px;
+    margin: 0 0 0px;
+}
+
+.alerta {
+    position: relative;
+    border: 1px solid transparent;
+    border-radius: .1875rem;
+}
+
+.inputMessage {
+    outline: 1px solid #e90404;
+}

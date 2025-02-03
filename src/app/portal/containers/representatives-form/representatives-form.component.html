@@ -1,0 +1,175 @@
+<!-- Header -->
+<div class="page-header page-header-light">
+  <div class="page-header-content header-elements-md-inline">
+    <div class="page-title d-flex">
+      <h4>
+        <a routerLink="/portal/representatives"
+          ><i class="icon-arrow-left52 mr-2"></i></a
+        ><span class="font-weight-semibold">Representantes</span>
+      </h4>
+    </div>
+  </div>
+</div>
+<!-- Content -->
+<div class="content">
+  <div class="card">
+    <div class="card-header bg-white header-elements-inline">
+      <h5 class="card-title">{{ form_type }} Representantes</h5>
+    </div>
+    <div class="card-body">
+      <form
+        [formGroup]="representative_form"
+        (ngSubmit)="save_representative()"
+      >
+        <fieldset class="mb-3">
+          <legend class="font-weight-bold">
+            <i class="icon-file-text2 mr-2"></i>Información
+          </legend>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="first_name">Nombre</label>
+                    <span class="required"> *</span>
+                    <input
+                      type="text"
+                      name="first_name"
+                      class="form-control"
+                      formControlName="first_name"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="last_name">Apellido</label>
+                    <span class="required"> *</span>
+                    <input
+                      type="text"
+                      name="last_name"
+                      class="form-control"
+                      formControlName="last_name"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="user_name">Usuario</label>
+                    <span class="required">*</span>
+                    <input
+                      [ngClass]="{
+                        inputMessage:
+                          representative_form.controls['user_name'].invalid &&
+                          (representative_form.controls['user_name'].dirty ||
+                            representative_form.controls['user_name'].touched)
+                      }"
+                      type="text"
+                      name="user_name"
+                      class="form-control"
+                      formControlName="user_name"
+                    />
+                    <div
+                      *ngIf="
+                        representative_form.controls['user_name'].invalid &&
+                        (representative_form.controls['user_name'].dirty ||
+                          representative_form.controls['user_name'].touched)
+                      "
+                      class="alerta"
+                    >
+                      <div>
+                        <p class="msj">El campo usuario no es válido.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <span class="required"> *</span>
+                    <input
+                      [ngClass]="{
+                        inputMessage:
+                          representative_form.controls['email'].invalid &&
+                          (representative_form.controls['email'].dirty ||
+                            representative_form.controls['email'].touched)
+                      }"
+                      type="email"
+                      name="email"
+                      class="form-control"
+                      formControlName="email"
+                    />
+                    <div
+                      *ngIf="
+                        representative_form.controls['email'].invalid &&
+                        (representative_form.controls['email'].dirty ||
+                          representative_form.controls['email'].touched)
+                      "
+                      class="alerta"
+                    >
+                      <div>
+                        <p class="msj">El campo correo no es válido.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field style="display: block" appearance="fill">
+                    <mat-label
+                      >Seleccione el tipo de Unidad Academica o Unidad
+                      Organizacional</mat-label
+                    >
+                    <mat-select
+                      [(value)]="selected_unity"
+                      (selectionChange)="selected($event)"
+                    >
+                      <mat-option
+                        *ngFor="let unity of unitys"
+                        [value]="unity"
+                        >{{ unity }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field
+                    style="display: block"
+                    appearance="fill"
+                    *ngIf="hide"
+                  >
+                    <mat-label>Seleccione una Unidad</mat-label>
+                    <mat-select (selectionChange)="unit_selected($event)">
+                      <mat-option
+                        *ngFor="let item of selection"
+                        [value]="item.value"
+                        >{{ item.viewValue }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div class="text-right">
+          <a class="btn btn-link" routerLink="/portal/representatives"
+            ><i class="icon-cross2 font-size-base mr-1"></i>Cancelar</a
+          >
+          <button
+            type="submit"
+            [disabled]="!representative_form.valid"
+            class="btn btn-primary"
+          >
+            Guardar<i class="icon-cloud-upload ml-2"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

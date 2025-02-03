@@ -1,0 +1,109 @@
+<div class="page-header page-header-light">
+    <div class="page-header-content header-elements-md-inline">
+        <div class="page-title d-flex">
+            <h4><a href="#"><i class="icon-arrow-left52 mr-2"></i></a> 
+                <span class="font-weight-semibold">Tipos de actividad</span>
+            </h4>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+        <div class="header-elements text-center d-none"> <!-- agregar un *ngIf para el validador -->
+            <div class="justify-content-center">
+                <a href="/portal/type-activities/add" class="btn bg-success"><span>Nuevo<i class="icon-plus3 ml-2"></i></span></a>
+            </div>
+        </div>
+
+        <div class="header-elements text-center d-none"> <!-- agregar un *ngIf para el validador -->
+            <div class="justify-content-center"></div>
+        </div>
+
+    </div>
+</div>
+
+<div class="content">
+    <div class="card">
+        <div class="card-header bg-white header-elements-inline">
+            <h5 class="card-title">Lista de Tipos de actividad</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo de evidencia</th>
+                            <th>Estatus</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let type_activity of type_activities_list">
+                            <td>{{type_activity.name}}</td>
+                            <td>
+                                <ng-container *ngFor="let type_evidence of type_activity.type_evidence">
+                                    {{type_evidence.name}} |
+                                </ng-container>
+                            </td>
+                            <td>
+                                <span *ngIf="type_activity.is_active" class="badge badge-success">Activo</span>
+                                <span *ngIf="!type_activity.is_active" class="badge badge-warning">Inactivo</span>
+                            </td>
+                            <td class="text-center">
+                                <div class="list-icons">
+                                    <div class="dropdown">
+                                        <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                            <i class="icon-menu9"></i>
+                                        </a>
+
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a [routerLink]="[ '/portal/type-activities', type_activity.id ]"
+                                                class="dropdown-item"><i
+                                                    class="icon-pencil7"></i> Editar</a>
+                                            <a  data-toggle="modal" data-target="#modal_delete"
+                                            (click)="set_type_activity_id(type_activity.id)"
+                                                class="dropdown-item"><i
+                                                    class="icon-bin"></i> Eliminar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete modal -->
+<div id="modal_delete" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Confirmar </h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="alert alert-danger alert-dismissible alert-styled-left border-top-0 border-bottom-0 border-right-0">
+                    <span class="font-weight-semibold">
+                        <h4>¿Estás seguro que deseas eliminar el registro?</h4>
+                    </span>El registro se eliminará permanentemente.
+                </div>
+                <hr>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-link" data-dismiss="modal">
+                    <i class="icon-cross2 font-size-base mr-1"></i>
+                    Cancelar
+                </button>
+                <button class="btn bg-danger" (click)="delete_type_activity()" data-dismiss="modal">
+                    <i class="icon-bin font-size-base mr1"></i>
+                    Eliminar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- /Delete modal -->

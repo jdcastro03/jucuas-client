@@ -1,0 +1,16 @@
+<div class="input-group input-width">
+  <input
+    class="form-control py-2 border-right-0 border"
+    type="text"
+    [(ngModel)]="filtro"
+    (keyup)="onSearchChange($event)"
+    formControlName="presenter"
+    [ngModel]="filtro"
+    [placeholder]="mensaje"
+  />
+  <span class="input-group-append">
+    <div class="input-group-text bg-transparent">
+      <i class="fa fa-search"></i>
+    </div>
+  </span>
+</div>

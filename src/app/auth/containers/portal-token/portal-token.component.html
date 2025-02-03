@@ -1,0 +1,98 @@
+<!-- Page content -->
+<div *ngIf="valid" class="page-content" style="min-height: 100vh;display: grid;place-items: center;">
+  <!-- Main content -->
+  <div class="card col-md-4">
+    <!-- Content area -->
+    <div class="content d-flex justify-content-center align-items-center">
+      <!-- Password reset form -->
+      <div class="card-body" *ngIf="token_valido">
+        <div class="text-center mb-3">
+          <!-- Logo -->
+          <a href="/"><img src="assets/images/logo_login.png" style="height: auto; max-width: 100%" /></a>
+          <span class="d-block text-muted">Recuperar Contraseña</span>
+        </div>
+        <div class="text-center mb-3">
+          <h3>Ingrese su nueva Contraseña</h3>
+        </div>
+        <form [formGroup]="password_form">
+            <fieldset class="mb-6">
+                <div class="row">
+                    <div class="offset-md-3 col-md-6">
+                        <div class="form-group">
+                            <label for="passwd1">Nueva Contraseña</label>  <span class="required"> *</span>
+                            <div class="form-group-feedback form-group-feedback-right">
+                                <input [type]="passwd1 ? 'text' : 'password'" name="passwd1" class="form-control" formControlName="passwd1" required>
+                                <div class="form-control-feedback" (click)="show_hide_password('1')">
+                                    <i *ngIf="!passwd1" class="icon-eye text-muted"></i>
+                                    <i *ngIf="passwd1" class="icon-eye-blocked text-muted"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="offset-md-3 col-md-6">
+                        <div class="form-group">
+                            <label for="passwd2">Confirmar Contraseña</label>  <span class="required"> *</span>
+                            <div class="form-group-feedback form-group-feedback-right">
+
+                              <input [type]="passwd2 ? 'text' : 'password'" name="passwd2" class="form-control" formControlName="passwd2" required>
+                                <div class="form-control-feedback" (click)="show_hide_password('2')">
+                                    <i *ngIf="!passwd2" class="icon-eye text-muted"></i>
+                                    <i *ngIf="passwd2" class="icon-eye-blocked text-muted"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+            <div class="text-right">
+                <a class="btn btn-link" routerLink="/portal/dashboard"><i class="icon-cross2 font-size-base mr-1"></i> Cancelar</a>
+                <button (click)="update_password()" type="submit" [disabled]="!password_form.valid" class="btn btn-primary">Guardar <i class="icon-paperplane ml-2"></i></button>
+            </div>
+        </form>
+    </div>
+      <!-- /password reset form -->
+
+      <!-- Token input form -->
+      <form class="token-input-form" *ngIf="!token_valido">
+        <div class="">
+          <div class="card-body">
+            <div class="text-center mb-3">
+              <!-- Logo -->
+              <a href="/"><img src="assets/images/logo_login.png" style="height: auto; max-width: 100%" /></a>
+              <span class="d-block text-muted">Recuperar Contraseña</span>
+            </div>
+            <div class="text-center mb-3">
+              <h3>Ingrese el código de 6 Dígitos que recibió en su correo</h3>
+            </div>
+            <div class="form-group form-group-feedback form-group-feedback-left col-md-12">
+              <input
+                type="text"
+                name="code"
+                class="form-control"
+                maxlength="6"
+                placeholder="Ejemplo: {{ rnd }}"
+                (input)="onInputChange($event)"
+              />
+              <div class="form-control-feedback">
+                &nbsp;
+                <i class="icon-key text-muted"></i>
+                &nbsp;
+              </div>
+            </div>
+            <div class="form-group">
+              <button (click)="submitToken()" class="btn btn-primary btn-block">Verificar Código</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- /token input form -->
+    </div>
+    <!-- /content area -->
+  </div>
+  <!-- /main content -->
+</div>
+<!-- /page content -->

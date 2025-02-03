@@ -1,0 +1,89 @@
+<!-- Page header -->
+<div class="page-header page-header-light">
+
+  <div class="page-header-content header-elements-md-inline">
+    <div class="page-title d-flex">
+      <h4><span class="font-weight-semibold">Dashboard</span></h4>
+    </div>
+  </div>
+</div>
+<!-- Content -->
+<div class="content" [hidden]="isAdmin">
+  <div class="text-center mb-3">
+      <!-- <i class="icon-reading icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1"></i> -->
+      <span class="d-block text-muted">Bienvenido</span>
+      <img src="assets/images/Logo_JUC_2022.png" style="height: auto; max-width: 100%;">
+  </div>
+</div>
+<div class="content" style="position: relative;" [hidden]="!isAdmin">
+  <div class="loading-ui" [hidden]="blockUI">
+    <div class="loading-box">
+      <label>Cargando estadisticas</label>
+      <mat-spinner class="loading" style="border-left: 10px; height: 50px;"></mat-spinner>
+    </div>
+  </div>
+  <div class="text-center mb-3">
+    <!-- <i class="icon-reading icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1"></i> -->
+    <span class="d-block text-muted">{{ bienvenidx }}</span>
+    <br>
+    <div style="height: auto; ">
+      <mat-tab-group preserveContent (selectedTabChange)="tabActive($event)" [selectedIndex]="selectedIndex" [hidden]="!blockUI">
+        <mat-tab label="RESUMEN">
+          <div class="chart-container" style="flex-direction: column;">
+            <div class="chart-main">
+              <canvas  id="ActivityUnit" >{{ UnitChart }}</canvas>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="REGION">
+          <div class="chart-container">
+            <div class="chart-main">
+              <canvas id="ActivityRegion">{{ RegionChart }}</canvas>
+            </div>
+            <div class="chart-sec">
+              <canvas id="ActivityRegionU" >{{ RegionChartU }}</canvas>
+              <canvas id="ActivityRegionP" >{{ RegionChartP }}</canvas>
+              <canvas id="ActivityRegionO" >{{ RegionChartO }}</canvas>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="CATEGORIA">
+          <div class="chart-container">
+            <div class="chart-main">
+              <canvas  id="ActivityCategory" >{{ CategoryChart }}</canvas>
+            </div>
+            <div class="chart-sec">
+              <canvas  id="ActivityCategoryU" >{{ CategoryChartU }}</canvas>
+              <canvas  id="ActivityCategoryP" >{{ CategoryChartP }}</canvas>
+              <canvas  id="ActivityCategoryO" >{{ CategoryChartO }}</canvas>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="AREA DE CONOCIMIENTO">
+          <div class="chart-container">
+            <div class="chart-main">
+              <canvas  id="ActivityKnowledge" >{{ KnowledgeChart }}</canvas>
+            </div>
+            <div class="chart-sec">
+              <canvas  id="ActivityKnowledgeU" >{{ KnowledgeChartU }}</canvas>
+              <canvas  id="ActivityKnowledgeP" >{{ KnowledgeChartP }}</canvas>
+              <canvas  id="ActivityKnowledgeO" >{{ KnowledgeChartO }}</canvas>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="TIPO DE PUBLICO">
+          <div class="chart-container">
+            <div class="chart-main">
+              <canvas  id="ActivityPublic" >{{ PublicChart }}</canvas>
+            </div>
+            <div class="chart-sec">
+              <canvas  id="ActivityPublicU" >{{ PublicChartU }}</canvas>
+              <canvas  id="ActivityPublicP" >{{ PublicChartP }}</canvas>
+              <canvas  id="ActivityPublicO" >{{ PublicChartO }}</canvas>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

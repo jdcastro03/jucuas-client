@@ -1,0 +1,161 @@
+<!-- Header -->
+<div class="page-header page-header-light">
+  <div class="page-header-content header-elements-md-inline">
+    <div class="page-title d-flex">
+      <h4>
+        <a routerLink="/portal/deadlines"
+          ><i class="icon-arrow-left52 mr-2"></i></a
+        ><span class="font-weight-semibold">Fechas de las jornadas</span>
+      </h4>
+    </div>
+  </div>
+</div>
+<!-- Content -->
+<div class="content">
+  <div class="card">
+    <div class="card-header bg-white header-elements-inline">
+      <h5 class="card-title">{{ form_type }} Fecha de la jornada</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="deadline_form" (ngSubmit)="save_deadline()">
+        <fieldset class="mb-3">
+          <legend class="font-weight-bold">
+            <i class="icon-file-text2 mr-2"></i>Información
+          </legend>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="name_edition">Nombre</label>
+                    <span class="required"> *</span>
+                    <input
+                      type="text"
+                      name="name_edition"
+                      class="form-control"
+                      formControlName="name_edition"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6" style="padding-top: 1rem">
+                  <mat-form-field style="display: block" appearance="fill">
+                    <mat-label>Seleccione una Edición</mat-label>
+                    <mat-select formControlName="date_edition">
+                      <mat-option
+                        *ngFor="let year of years"
+                        [value]="year.value"
+                      >
+                        {{ year.viewValue }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Fecha limite para subir actividades</mat-label>
+                    <input
+                      formControlName="date_to_upload_activities"
+                      matInput
+                      [matDatepicker]="dp_date_activities"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="dp_date_activities"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #dp_date_activities></mat-datepicker>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Fecha limite para subir evidencia</mat-label>
+                    <input
+                      formControlName="date_to_upload_evidence"
+                      matInput
+                      [matDatepicker]="dp_date_evidence"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="dp_date_evidence"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #dp_date_evidence></mat-datepicker>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label
+                      >Fecha limite para validar la evidencia</mat-label
+                    >
+                    <input
+                      formControlName="date_to_validate_evidence"
+                      matInput
+                      [matDatepicker]="dp_date_validate_evidence"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="dp_date_validate_evidence"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #dp_date_validate_evidence></mat-datepicker>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Fecha de inicio de la jornada</mat-label>
+                    <input
+                      formControlName="date_edition_start"
+                      matInput
+                      [matDatepicker]="dp_edition_start"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="dp_edition_start"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #dp_edition_start></mat-datepicker>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Fecha de finalización de la jornada</mat-label>
+                    <input
+                      formControlName="end_date_of_the_edition"
+                      matInput
+                      [matDatepicker]="dp_edition_end"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="dp_edition_end"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #dp_edition_end></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-label>Imagen de fondo de constancia</mat-label>
+                    <br>
+                    <input type="file" class="file-upload" accept="image/png, image/jpeg" (change)="fileChanged($event)">
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div class="text-right">
+          <a class="btn btn-link" routerLink="/portal/deadlines"
+            ><i class="icon-cross2 font-size-base mr-1"></i>Cancelar</a
+          >
+          <button
+            type="submit"
+            [disabled]="!deadline_form.valid"
+            class="btn btn-primary"
+          >
+            Guardar<i class="icon-cloud-upload ml-2"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

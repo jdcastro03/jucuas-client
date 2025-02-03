@@ -1,0 +1,21 @@
+<form class="col-md-6" [formGroup]="activity_form" (ngSubmit)="save_numbers_total_attendees()">
+    <fieldset class="mb-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="numbers_total_attendees">Numero de asistentes reales</label>
+                            <input type="text" name="numbers_total_attendees" maxlength="3" class="form-control" formControlName="numbers_total_attendees" required/>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <div class="text-left">
+        <button type="submit" [disabled]="!activity_form.valid" class="btn btn-primary">Guardar número de asistentes reales<i class="icon-cloud-upload ml-2"></i></button>
+    </div>
+</form>

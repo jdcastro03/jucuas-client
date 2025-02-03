@@ -1,0 +1,5 @@
+/* Hoja de estilos para los forms para que los select se vean mejor  */
+
+.input_select{width: 100%;}
+.d_input_select{width: 200%;}
+.c{display: grid;place-items: center;}
