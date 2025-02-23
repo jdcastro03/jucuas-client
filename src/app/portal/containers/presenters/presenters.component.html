@@ -72,12 +72,8 @@
             <tr *ngFor="let presenter of presenters_list">
               <td>{{ presenter.first_name }} {{ presenter.last_name }}</td>
               <td>
-                <span *ngIf="presenter.is_active" class="badge badge-success"
-                  >Activo</span
-                >
-                <span *ngIf="!presenter.is_active" class="badge badge-warning"
-                  >Inactivo</span
-                >
+                <span *ngIf="presenter.is_active" class="badge badge-success">Activo</span>
+                <span *ngIf="!presenter.is_active" class="badge badge-warning">Inactivo</span>
               </td>
               <td class="text-center">
                 <div class="list-icons">
@@ -85,20 +81,18 @@
                     <a href="#" class="list-icons-item" data-toggle="dropdown">
                       <i class="icon-menu9"></i>
                     </a>
-
+            
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a
-                        [routerLink]="['/portal/presenters', presenter.id]"
-                        class="dropdown-item"
-                        ><i class="icon-pencil7"></i> Editar</a
-                      >
-                      <a
-                        data-toggle="modal"
-                        data-target="#modal_delete"
-                        (click)="set_presenter_id(presenter.id)"
-                        class="dropdown-item"
-                        ><i class="icon-bin"></i> Eliminar</a
-                      >
+                      <a [routerLink]="['/portal/presenters', presenter.id]" class="dropdown-item">
+                        <i class="icon-pencil7"></i> Editar
+                      </a>
+                      <a data-toggle="modal" data-target="#modal_delete" (click)="set_presenter_id(presenter.id)" class="dropdown-item">
+                        <i class="icon-bin"></i> Eliminar
+                      </a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" (click)="openChangePasswordDialog(presenter.id)">
+                        <i class="icon-key"></i> Cambiar Contraseña
+                      </a>
                     </div>
                   </div>
                 </div>

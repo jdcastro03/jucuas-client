@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -43,7 +44,8 @@ export class AuthService {
   changePasswordToken(data: any) {
     return this.http.post(`${this.apiURL}password/change/token/`, data);
   }
-
+  // Nuevo método para cambiar la contraseña de un usuario como administrador
+  
   //Este metodo hace el refresh del Token, se usa
   //para actualizar el estado del token en turno.
   refreshToken() {

@@ -185,7 +185,7 @@ export class PresentersModalComponent implements OnInit {
       this.organizational = organizationalunit;
     });
 
-    this.id = this.route.snapshot.paramMap.get('id');
+    this.id = this.route.snapshot.paramMap.get('id') ?? 'add';
     if (this.id == 'add') {
       this.form_type = 'Agregar';
     }

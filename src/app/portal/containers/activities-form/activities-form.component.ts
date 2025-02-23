@@ -131,6 +131,7 @@ export class ActivitiesFormComponent implements OnInit {
   types_of_public: Choice[] = [
     { value: 'INT', viewValue: 'Interno' },
     { value: 'EXT', viewValue: 'Externo' },
+    { value: 'EXT&INT', viewValue: 'Externo e Interno' },
   ];
 
   typeActivitiesList: ChoiceActivity[] = [];

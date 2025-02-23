@@ -47,6 +47,8 @@ import { ActivitiesFormComponent } from './containers/activities-form/activities
 import { PresentersModalComponent } from './containers/presenters-modal/presenters-modal.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ChangePasswordDialogComponent } from '../components/change-password-dialog/change-password-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     PortalComponent,
@@ -84,6 +86,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     TablePaginationComponent,
     InputSearchComponent,
     PresentersModalComponent,
+    ChangePasswordDialogComponent
   ],
   imports: [
     CommonModule,
@@ -103,7 +106,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatAutocompleteModule,
     MatIconModule,
     MatTabsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDialogModule
   ],
 })
 export class PortalModule {}

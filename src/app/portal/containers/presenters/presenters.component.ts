@@ -9,6 +9,8 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { PresentersService } from '../../services/presenters.service';
 import { PresenterModel } from '../../models/presenter.model';
 import { PaginationWrapperModel } from '../../models/pagination-wrapper.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangePasswordDialogComponent } from 'src/app/components/change-password-dialog/change-password-dialog.component'; // Asegúrate de importar tu componente de diálogo
 
 declare var $: any;
 
@@ -33,7 +35,6 @@ export class PresentersComponent implements OnInit, OnDestroy {
   count: number = 0;
   firstEntry: number = 0;
   lastEntry: number = 0;
-  //validator: boolean;
   paginationWrapperFunction!: (
     page: string
   ) => Observable<PaginationWrapperModel<any>>;
@@ -42,7 +43,8 @@ export class PresentersComponent implements OnInit, OnDestroy {
     public presenters: PresentersService,
     private auth: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dialog: MatDialog // Inyectar MatDialog
   ) {
     this.dtOptions = {
       language: {
@@ -67,6 +69,19 @@ export class PresentersComponent implements OnInit, OnDestroy {
 
   set_presenter_id(id: number) {
     this.presenter_id = id;
+  }
+
+  // Método para abrir el diálogo de cambiar contraseña
+  openChangePasswordDialog(userId: number): void {
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
+      data: { userId: userId }, // Pasa el ID del presentador al diálogo
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.toastr.success('Contraseña cambiada correctamente');
+      }
+    });
   }
 
   delete_presenter() {

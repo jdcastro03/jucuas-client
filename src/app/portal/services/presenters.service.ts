@@ -88,6 +88,15 @@ export class PresentersService {
   update(url: string, data: any, headers: any) {
     return this.http.post(`${this.apiURL}update_${url}/`, data, headers);
   }
+
+  changePasswordWithNotification(presennter_id: number, newPassword: string, confirmPassword: string, notify: boolean) {
+    return this.http.post(`${this.apiURL}password/change/admin/notify/${presennter_id}/`, {
+      new_password: newPassword,
+      confirm_password: confirmPassword,
+      notify: notify
+    });
+  }
+
   //funcion para verificar si el telefono ya está registrado
   //retorna 1 si el telefono ya existe
   //retorna 0 si el telefono no existe
