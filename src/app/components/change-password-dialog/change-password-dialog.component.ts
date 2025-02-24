@@ -12,6 +12,7 @@ import { PresentersService } from 'src/app/portal/services/presenters.service';
 })
 export class ChangePasswordDialogComponent {
   password_form: FormGroup;
+  isSubmitting = false;  // Variable para controlar si se está enviando la solicitud
 
   constructor(
     public dialogRef: MatDialogRef<ChangePasswordDialogComponent>,
@@ -51,10 +52,14 @@ export class ChangePasswordDialogComponent {
 
     const userId = this.data.userId;  // Recibe el ID del usuario desde el componente principal
 
+    // Deshabilitar el botón "Guardar" mientras se procesa la solicitud
+    this.isSubmitting = true;
+
     // Llamar al servicio para cambiar la contraseña
     this.presenterService.changePasswordWithNotification(userId, newPassword, confirmPassword, notifyUser)
       .subscribe(
         (response: any) => {
+          this.isSubmitting = false;  // Volver a habilitar el botón después de recibir la respuesta
           if (response.status === 'OK') {
             this.toastr.success('Contraseña cambiada con éxito.');
             if (response.email_sent) {
@@ -66,6 +71,7 @@ export class ChangePasswordDialogComponent {
           }
         },
         (error) => {
+          this.isSubmitting = false;  // Habilitar el botón de nuevo si ocurre un error
           this.toastr.error('Error al cambiar la contraseña.');
           console.error('Error:', error);
         }
